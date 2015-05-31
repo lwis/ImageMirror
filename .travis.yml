@@ -10,4 +10,4 @@ android:
     - extra-android-m2repository
     - sys-img-armabi-v7a-android-22
     - sys-img-x86-android-22
-script: gradle assembleDebug
+script: gradle assembleDebug testDebug

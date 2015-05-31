@@ -31,6 +31,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
         }
+
+        debug {
+            shrinkResources false
+            zipAlignEnabled false
+            minifyEnabled false
+        }
     }
 }
 
