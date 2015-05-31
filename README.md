@@ -3,7 +3,6 @@
 
 This app serves as a simple intent receiver that flips and image and writes it back out to storage.
 
-
 ##Todo:
 
 - Switch processing to a background service that displays a notification (instead of the activity)
