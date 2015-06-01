@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -70,8 +71,11 @@ public class ImageProcessorActivity extends Activity
 		InputStream input = null;
 		try
 		{
-			final String filename = FilenameUtils.getBaseName(imageUri.getPath());
-			final String ext = FilenameUtils.getExtension(imageUri.getPath()).toLowerCase();
+			final String filename_raw = FilenameUtils.getBaseName(imageUri.getPath());
+			final String filename = "ACTUAL".equals(filename_raw) ? Long.toString(new Date().getTime()) : filename_raw;
+			final String fileext = FilenameUtils.getExtension(imageUri.getPath()).toLowerCase();
+			final String ext = "".equals(fileext) ? "jpg" : fileext;
+
 			input = getContentResolver().openInputStream(imageUri);
 
 			final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -80,16 +84,15 @@ public class ImageProcessorActivity extends Activity
 
 			final Matrix m = new Matrix();
 			m.preScale(-1, 1);
-			final Bitmap src = bitmap;
 
-			final Bitmap dst = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, false);
+			final Bitmap dst = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, false);
 
 			final File output = new File(Environment.getExternalStorageDirectory(), "/ImageMirror/");
 			output.mkdir();
-			final FileOutputStream out = new FileOutputStream(new File(output, filename + "." + ext));
+			final FileOutputStream out = new FileOutputStream(new File(output, filename + "." + ("".equals(ext) ? "jpg" : ext)));
 
 			final Bitmap.CompressFormat format;
-			if(intent.getType().equals("image/png"))
+			if(intent.getType().equals("image/png") && ext.equals("png"))
 			{
 				format = Bitmap.CompressFormat.PNG;
 			}
